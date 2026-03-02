@@ -1,9 +1,4 @@
-<?php
 // Vercel Entry Point
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -28,9 +23,6 @@ if (isset($_GET['sync']) && $_GET['sync'] === '2026') {
 
 // This block handles requests for api/health.php
 if (basename($_SERVER['PHP_SELF']) === 'health.php') {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type');
 
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(200);
@@ -43,11 +35,8 @@ if (basename($_SERVER['PHP_SELF']) === 'health.php') {
     exit;
 }
 
-try {
-    require __DIR__ . '/../public/index.php';
 } catch (\Throwable $e) {
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Origin: *');
     http_response_code(500);
     echo json_encode([
         'error' => true,
