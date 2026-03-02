@@ -1,11 +1,6 @@
 <?php
 // Vercel Entry Point
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
-
 if (isset($_GET['sync']) && $_GET['sync'] === '2026') {
     require __DIR__ . '/../vendor/autoload.php';
     $app = require_once __DIR__ . '/../bootstrap/app.php';
@@ -24,14 +19,9 @@ if (isset($_GET['sync']) && $_GET['sync'] === '2026') {
 
 // This block handles requests for api/health.php
 if (basename($_SERVER['PHP_SELF']) === 'health.php') {
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(200);
-        exit;
-    }
-
-    // For health check, just return a success message
-    http_response_code(200);
-    echo json_encode(['status' => 'ok']);
+    // Health check logic should ideally be in health.php, 
+    // but this handles it if accessed via index.php route.
+    require __DIR__ . '/health.php';
     exit;
 }
 
