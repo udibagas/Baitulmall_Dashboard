@@ -358,7 +358,7 @@ const ProductManagement = () => {
                                                 const token = localStorage.getItem('token'); // Assuming auth token needed
                                                 // Need to import axios or use fetch. The existing code uses 'productApi' services.
                                                 // We should probably add this to the api service, but for quick implementation:
-                                                const response = await fetch('http://localhost:8000/api/v1/ai/generate-description', {
+                                                const response = await fetch('http://localhost:8000/v1/ai/generate-description', {
                                                     method: 'POST',
                                                     headers: {
                                                         'Content-Type': 'application/json',
