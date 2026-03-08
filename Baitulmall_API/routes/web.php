@@ -45,6 +45,7 @@ Route::get('urgent-sync', function() {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'SettingSeeder', '--force' => true]);
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'TransactionalDataSeeder', '--force' => true]);
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UserAccountSeeder', '--force' => true]);
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'ProductSeeder', '--force' => true]);
             return "SUCCESS: Direct Seeding Complete.\n";
         }
         return "ERROR: Step not recognized.";
