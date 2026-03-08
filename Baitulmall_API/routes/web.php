@@ -7,11 +7,12 @@ Route::get('/', function () {
     try {
         return response()->json([
             'status' => 'Baitulmall API is online',
-            'version' => '1.2.2-debug',
-            'products_count' => \App\Models\Product::count(),
-            'rts_count' => \App\Models\RT::count(),
-            'first_product' => \App\Models\Product::first(),
-            'db_connection' => config('database.default')
+            'version' => '1.2.3-RETRY',
+            'products_count' => \Illuminate\Support\Facades\Schema::hasTable('products') ? \App\Models\Product::count() : 'TABLE MISSING',
+            'rts_count' => \Illuminate\Support\Facades\Schema::hasTable('rts') ? \App\Models\RT::count() : 'TABLE MISSING',
+            'db_connection' => config('database.default'),
+            'app_env' => config('app.env'),
+            'debug_mode' => config('app.debug')
         ]);
     } catch (\Exception $e) {
         return response()->json([
