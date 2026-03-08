@@ -15,26 +15,34 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::where('is_active', true);
+        try {
+            $query = Product::where('is_active', true);
 
-        // Filter by Category
-        if ($request->has('category') && $request->category !== 'Sumua') {
-             $category = $request->category;
-             if ($category && $category !== 'All') {
-                 $query->where('category', $category);
-             }
+            // Filter by Category
+            if ($request->has('category') && $request->category !== 'Sumua') {
+                 $category = $request->category;
+                 if ($category && $category !== 'All') {
+                     $query->where('category', $category);
+                 }
+            }
+
+            // Search by name
+            if ($request->has('search')) {
+                $search = $request->search;
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('seller_name', 'like', "%{$search}%");
+            }
+
+            $products = $query->with('rt')->latest()->paginate(12);
+
+            return response()->json($products);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'trace' => config('app.debug') ? $e->getTraceAsString() : null
+            ], 500);
         }
-
-        // Search by name
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('seller_name', 'like', "%{$search}%");
-        }
-
-        $products = $query->with('rt')->latest()->paginate(12);
-
-        return response()->json($products);
     }
 
     /**
